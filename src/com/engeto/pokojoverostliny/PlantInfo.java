@@ -57,7 +57,11 @@ public class PlantInfo {
         return lastWatering;
     }
 
-    public void setLastWatering(LocalDate lastWatering) {
+    public void setLastWatering(LocalDate lastWatering) throws PlantException {
+        LocalDate date = getPlanted();
+        if (lastWatering.isBefore(date)) {
+            throw new PlantException("Date of last watering (" + lastWatering +
+                    ") can't be before date of planting (" + date + ").");}
         this.lastWatering = lastWatering;
     }
 
@@ -65,7 +69,9 @@ public class PlantInfo {
         return frequencyOfWatering;
     }
 
-    public void setFrequencyOfWatering(int frequencyOfWatering) {
+    public void setFrequencyOfWatering(int frequencyOfWatering) throws PlantException {
+        if (frequencyOfWatering <=0) throw new PlantException(
+                "Watering frequency must be at least one day, you entered: "+ frequencyOfWatering);
         this.frequencyOfWatering = frequencyOfWatering;
     }
 }
