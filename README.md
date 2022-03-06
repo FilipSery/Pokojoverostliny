@@ -1,0 +1,2 @@
+# Pokojoverostliny
+DÚ - pokojové rostliny
