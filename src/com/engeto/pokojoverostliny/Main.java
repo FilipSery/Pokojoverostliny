@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         PlantsList test = new PlantsList();
         try {
-            test.loadPlantsFromFile("kvetiny.txt");
+            test.loadPlantsFromFile("kvetiny-spatne-frekvence.txt");
         } catch (PlantException e) {
             System.err.println(e.getLocalizedMessage());
         }

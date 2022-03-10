@@ -94,7 +94,7 @@ public class PlantInfo {
             return new PlantInfo(nameOfPlant, notesAboutPlant, planted, lastWatering, frequencyOfWatering);
         }
         catch (DateTimeException e) {throw new PlantException("Wrong date was inserted" +e.getLocalizedMessage()); }
-        catch (NumberFormatException e) {throw new PlantException("Wrong frequency of watering was inserted"+e.getLocalizedMessage());}
+        catch (NumberFormatException e) {throw new PlantException("Wrong frequency of watering was inserted, "+e.getLocalizedMessage());}
 
     }
     public String plantFileOutput (String delimiter) {
