@@ -1,5 +1,6 @@
 package com.engeto.pokojoverostliny;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 
 public class PlantInfo {
@@ -17,14 +18,17 @@ public class PlantInfo {
         this.frequencyOfWatering = frequencyOfWatering;
     }
 
-    public PlantInfo(String notes, LocalDate lastWatering) {
+    public PlantInfo(String plantName, LocalDate planted, int frequencyOfWatering) {
+        this.plantName = plantName;
         this.notes = "";
+        this.planted = planted;
         this.lastWatering = LocalDate.now();
+        this.frequencyOfWatering = frequencyOfWatering;
+
     }
 
-    public PlantInfo(String notes, LocalDate planted, LocalDate lastWatering, int frequencyOfWatering) {
-        this.notes = "";
-        this.planted = LocalDate.now();
+    public PlantInfo(String plantName) {
+        this.plantName = plantName;
         this.lastWatering = LocalDate.now();
         this.frequencyOfWatering = 7;
     }
@@ -73,5 +77,30 @@ public class PlantInfo {
         if (frequencyOfWatering <=0) throw new PlantException(
                 "Watering frequency must be at least one day, you entered: "+ frequencyOfWatering);
         this.frequencyOfWatering = frequencyOfWatering;
+    }
+    public static PlantInfo plantParse (String text, String delimiter) throws PlantException{
+        delimiter = "\t";
+        String [] data = text.split(delimiter);
+
+        String nameOfPlant = data [0];
+        String notesAboutPlant = data [1];
+
+
+        try {
+            int frequencyOfWatering = Integer.parseInt(data[2]);
+            LocalDate lastWatering = LocalDate.parse(data[3]);
+            LocalDate planted = LocalDate.parse(data[4]);
+
+            return new PlantInfo(nameOfPlant, notesAboutPlant, planted, lastWatering, frequencyOfWatering);
+        }
+        catch (DateTimeException e) {throw new PlantException("Wrong date was inserted" +e.getLocalizedMessage()); }
+        catch (NumberFormatException e) {throw new PlantException("Wrong frequency of watering was inserted"+e.getLocalizedMessage());}
+
+    }
+    public String plantFileOutput (String delimiter) {
+        return getPlantName() + delimiter + getNotes() + delimiter + getFrequencyOfWatering() +delimiter+ getLastWatering()+delimiter+getPlanted();
+    }
+    public String getWateringInfo(){
+        return "Plant name: "+getPlantName()+", date of last watering: "+lastWatering+", next recommended watering: "+ lastWatering.plusDays(getFrequencyOfWatering());
     }
 }
